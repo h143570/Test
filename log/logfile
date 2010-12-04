@@ -1,0 +1,39 @@
+20:58:04.286 INFO - Java: Sun Microsystems Inc. 11.0-b16
+20:58:04.294 INFO - OS: Windows Vista 6.0 x86
+20:58:04.298 INFO - v1.0-beta-2 [2571], with Core v1.0-beta-2 [2330]
+20:58:04.894 INFO - Version Jetty/5.1.x
+20:58:04.895 INFO - Started HttpContext[/selenium-server/driver,/selenium-server/driver]
+20:58:04.898 INFO - Started HttpContext[/selenium-server,/selenium-server]
+20:58:04.898 INFO - Started HttpContext[/,/]
+20:58:04.904 INFO - Started SocketListener on 0.0.0.0:4444
+20:58:04.904 INFO - Started org.mortbay.jetty.Server@dbe178
+20:58:09.063 INFO - Checking Resource aliases
+20:58:09.075 INFO - Command request: getNewBrowserSession[*firefox, http://portal.cat-szeged.hu:9090, ] on session null
+20:58:09.077 INFO - creating new remote session
+20:58:09.524 INFO - Allocated session e8af90f844a84ab8b5065ec0391408fe for http://portal.cat-szeged.hu:9090, launching...
+20:58:09.648 INFO - Preparing Firefox profile...
+20:58:13.097 INFO - Launching Firefox...
+20:58:18.130 INFO - Got result: OK,e8af90f844a84ab8b5065ec0391408fe on session e8af90f844a84ab8b5065ec0391408fe
+20:58:18.172 INFO - Command request: open[/portal/server.pt, ] on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.239 INFO - Got result: OK on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.244 INFO - Command request: waitForPageToLoad[50000, ] on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.272 INFO - Got result: OK on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.278 INFO - Command request: type[in_tx_username, Administrator] on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.328 INFO - Got result: OK on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.332 INFO - Command request: type[in_pw_userpass, ] on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.354 INFO - Got result: OK on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.363 INFO - Command request: click[in_bu_Login, ] on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.424 INFO - Got result: OK on session e8af90f844a84ab8b5065ec0391408fe
+20:58:20.428 INFO - Command request: waitForPageToLoad[50000, ] on session e8af90f844a84ab8b5065ec0391408fe
+20:58:21.020 INFO - Got result: OK on session e8af90f844a84ab8b5065ec0391408fe
+20:58:21.024 INFO - Command request: click[//div[@id='-menu-cache-32']/span/a/div, ] on session e8af90f844a84ab8b5065ec0391408fe
+20:58:21.087 INFO - Got result: OK on session e8af90f844a84ab8b5065ec0391408fe
+20:58:21.637 INFO - Command request: click[//tr[@id='menu-row-menu-cache-36']/td[2]/span, ] on session e8af90f844a84ab8b5065ec0391408fe
+20:58:21.685 INFO - Got result: ERROR: Element //tr[@id='menu-row-menu-cache-36']/td[2]/span not found on session e8af90f844a84ab8b5065ec0391408fe
+20:58:21.697 INFO - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=4444]
+20:58:21.794 INFO - Stopped SocketListener on 0.0.0.0:4444
+20:58:21.949 INFO - Stopped HttpContext[/selenium-server/driver,/selenium-server/driver]
+20:58:21.993 INFO - Stopped HttpContext[/selenium-server,/selenium-server]
+20:58:22.037 INFO - Stopped HttpContext[/,/]
+20:58:22.037 INFO - Stopped org.mortbay.jetty.Server@dbe178
+20:58:22.037 INFO - Killing Firefox...
