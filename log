@@ -1,0 +1,15 @@
+>> Request URI: /portal/server.pt?
+Connection kept alive...
+>> Request URI: /portal/server.pt?
+Exception in thread "main" org.apache.http.ProtocolException: Not a valid protocol version: <html ><head><link type="text/css" href="http://portal.cat-szeged.hu:9090/imageserver/plumtree/common/public/css/mainstyle-en.css" rel="StyleSheet" lang="en" ></link><title>Log In</title><script type="text/javascript" src="http://portal.cat-szeged.hu:9090/imageserver/plumtree/common/private/js/jsportlet/216398/PTPortletServices.js"></script>
+	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:212)
+	at org.apache.http.impl.AbstractHttpClientConnection.receiveResponseHeader(AbstractHttpClientConnection.java:271)
+	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:292)
+	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:126)
+	at main.LowerLevelApproach.main(LowerLevelApproach.java:139)
+Caused by: org.apache.http.ParseException: Not a valid protocol version: <html ><head><link type="text/css" href="http://portal.cat-szeged.hu:9090/imageserver/plumtree/common/public/css/mainstyle-en.css" rel="StyleSheet" lang="en" ></link><title>Log In</title><script type="text/javascript" src="http://portal.cat-szeged.hu:9090/imageserver/plumtree/common/private/js/jsportlet/216398/PTPortletServices.js"></script>
+	at org.apache.http.message.BasicLineParser.parseProtocolVersion(BasicLineParser.java:160)
+	at org.apache.http.message.BasicLineParser.parseStatusLine(BasicLineParser.java:404)
+	at org.apache.http.impl.io.HttpResponseParser.parseHead(HttpResponseParser.java:108)
+	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:210)
+	... 4 more
