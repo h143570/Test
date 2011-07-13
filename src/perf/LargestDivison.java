@@ -7,8 +7,8 @@ import java.util.concurrent.ConcurrentMap;
 
 public class LargestDivison {
 
-    private static final int                   CACHE_SIZE                           = 100000;
-    private static final int                   MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS = 500000;
+    private static final int                   CACHE_SIZE                           = 500;
+    private static final int                   MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS = 100000;
 
     //    private static Map<String, Long> preGenCache;
     private static long[]                      preGenCache;
@@ -60,22 +60,14 @@ public class LargestDivison {
                 result = MINUS_ONE;
             } else {
                 if (tmpLong % 2L != 0) {
-                    long sqrt = (long) Math.sqrt(tmpLong);
-                    if (sqrt <= maxElement) {
-                        result = doWorkInternallyFast(tmpLong);
-                    } else {
-                        long tmpResult = doWorkInternallyFast(tmpLong);
-                        if (tmpResult == 1L) {
-                            tmpResult = doWorkInternallyRemainder(tmpLong, sqrt, maxElement);
-                        }
-                        result = tmpResult;
+                    result = doWorkInternallyFast(tmpLong);
+                    if (result == 1L && result <= maxElement) {
+                        result = doWorkInternallyRemainder(tmpLong, (long) Math.sqrt(tmpLong), maxElement);
                     }
-
                 } else {
                     result = tmpLong / 2L;
                 }
             }
-
             storeInCache(number, result);
         }
 
@@ -101,8 +93,7 @@ public class LargestDivison {
 
     private static final long doWorkInternallyFast(long n) {
         long result = 1;
-        for (int i = 0; i < MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS; i++) {
-            long j = preGenCache[i];
+        for (long j : preGenCache) {
             if (n % j == 0) {
                 result = n / j;
                 break;
