@@ -7,14 +7,15 @@ import java.util.concurrent.ConcurrentMap;
 
 public class LargestDivison {
 
-    private static final int CACHE_SIZE = 400;
-    private static final int MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS = 100000;
+    private static final int                   CACHE_SIZE                           = 500;
+    private static final int                   MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS = 100000;
 
     //    private static Map<String, Long> preGenCache;
-    private static long[] preGenCache;
-    private static ConcurrentMap<String, Long> cache = new ConcurrentHashMap<String, Long>(CACHE_SIZE + 100, 1, 10);
+    private static long[]                      preGenCache;
+    private static ConcurrentMap<String, Long> cache                                = new ConcurrentHashMap<String, Long>(CACHE_SIZE + 100, 1, 10);
+    private static long                        maxElement;
 
-    private static final Long MINUS_ONE = -1L;
+    private static final Long                  MINUS_ONE                            = -1L;
 
     public LargestDivison() {
         super();
@@ -28,13 +29,14 @@ public class LargestDivison {
             long numb = 5L;
 
             while (i < MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS) {
-                if (doWorkInternallyGeneric(numb) == 1) {
+                //                if (doWorkInternallyGeneric(numb) == 1) {
+                if (doWorkInternallyRemainder(numb, (long) Math.sqrt(numb), 3) == 1) {
                     preGenCache[i] = numb;
                     i++;
                 }
                 numb += 2;
             }
-
+            maxElement = preGenCache[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS - 1];
             System.out.println(preGenCache[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS - 1]);
         }
     }
@@ -53,12 +55,23 @@ public class LargestDivison {
             long tmpLong = 0;
             try {
                 tmpLong = Long.parseLong(number);
-            } catch (NumberFormatException nfe) {}
+            } catch (NumberFormatException nfe) {
+            }
             if (tmpLong < 2) {
                 result = MINUS_ONE;
             } else {
                 if (tmpLong % 2 != 0) {
-                    result = doWorkInternallyGeneric(tmpLong);
+                    long sqrt = (long) Math.sqrt(tmpLong);
+                    if (sqrt <= maxElement) {
+                        result = doWorkInternallyFast(tmpLong, sqrt);
+                    } else {
+                        long tmpResult = doWorkInternallyFast(tmpLong, sqrt);
+                        if (tmpResult == 1) {
+                            tmpResult = doWorkInternallyRemainder(tmpLong, sqrt, maxElement);
+                        }
+                        result = tmpResult;
+                    }
+
                 } else {
                     result = tmpLong / 2;
                 }
@@ -87,10 +100,22 @@ public class LargestDivison {
         cache.put(number, result);
     }
 
-    private static long doWorkInternallyGeneric(long n) {
+    private static final long doWorkInternallyFast(long n, long sqrt) {
         long result = 1;
-        double sqrt = Math.sqrt(n);
-        for (long i = 3; i <= sqrt; i += 2) {
+        for (int i = 0; i < MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS; i++) {
+            long j = preGenCache[i];
+            if (n % j == 0) {
+                result = n / j;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    private static final long doWorkInternallyRemainder(long n, long sqrt, long start) {
+        long result = 1;
+        for (long i = start; i <= sqrt; i += 2) {
             if (n % i == 0) {
                 result = n / i;
                 break;
