@@ -12,12 +12,12 @@ import java.util.concurrent.TimeUnit;
 
 public class Measurement {
 
-    private final static String             FILENAME        = "testdata.csv";
-    private final static int                THREAD_COUNT    = 100;
-    private final static List<Task>         TASKS           = new ArrayList<Task>(THREAD_COUNT);
-    private final static ExecutorService    THREAD_EXECUTOR = Executors.newFixedThreadPool(THREAD_COUNT);
-    private final static List<List<String>> TEST_DATA       = new ArrayList<List<String>>(THREAD_COUNT);
-    private final static List<List<String>> GOOD_DATA       = new ArrayList<List<String>>(THREAD_COUNT);
+    private final static String FILENAME = "testdata.csv";
+    private final static int THREAD_COUNT = 100;
+    private final static List<Task> TASKS = new ArrayList<Task>(THREAD_COUNT);
+    private final static ExecutorService THREAD_EXECUTOR = Executors.newFixedThreadPool(THREAD_COUNT);
+    private final static List<List<String>> TEST_DATA = new ArrayList<List<String>>(THREAD_COUNT);
+    private final static List<List<String>> GOOD_DATA = new ArrayList<List<String>>(THREAD_COUNT);
 
     static {
         for (int i = 0; i < THREAD_COUNT; ++i) {
@@ -95,17 +95,28 @@ public class Measurement {
     }
 
     private static boolean validateResult() {
+        boolean isValid = true;
+        long taskResultCount = 0;
+        long goodDataCount = 0;
         for (int i = 0; i < THREAD_COUNT; ++i) {
             int j = 0;
-            for (String result : GOOD_DATA.get(i)) {
-                if (!result.equals(TASKS.get(i).getResult().get(j).toString())) {
+            goodDataCount += GOOD_DATA.get(i).size();
+            for (Long result : TASKS.get(i).getResult()) {
+                if (!result.toString().equals(GOOD_DATA.get(i).get(j))) {
                     System.out.println(TEST_DATA.get(i).get(j) + " the largest division is: " + result + " the getting result:"
                             + TASKS.get(i).getResult().get(j));
-                    return false;
+                    isValid = false;
+                    break;
                 }
+                taskResultCount++;
                 j++;
             }
         }
-        return true;
+        if (taskResultCount != goodDataCount) {
+            System.out.println("Incomplete result the expected was: " + goodDataCount + " the actual was: " + taskResultCount);
+            isValid = false;
+        }
+
+        return isValid;
     }
 }
