@@ -1,8 +1,6 @@
 package perf;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -12,28 +10,32 @@ public class LargestDivison {
     private static final int CACHE_SIZE = 400;
     private static final int MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS = 100000;
 
-    private static Map<String, Long> preGenCache;
+    //    private static Map<String, Long> preGenCache;
+    private static long[] preGenCache;
     private static ConcurrentMap<String, Long> cache = new ConcurrentHashMap<String, Long>(CACHE_SIZE + 100, 1, 10);
 
     private static final Long MINUS_ONE = -1L;
-    private static final long MAX_FAST_FACTOR = 3037000499L;
 
     public LargestDivison() {
         super();
 
         if (preGenCache == null) {
-            preGenCache = new HashMap<String, Long>(MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS, 1);
 
-            put(2L);
-            long n = 3;
-            while (n <= Long.MAX_VALUE && preGenCache.size() < 100000) {
-                if (doWorkInternallyGeneric(n) == 1) {
-                    put(n);
+            preGenCache = new long[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS];
+
+            preGenCache[0] = 3;
+            int i = 1;
+            long numb = 5L;
+
+            while (i < MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS) {
+                if (doWorkInternallyGeneric(numb) == 1) {
+                    preGenCache[i] = numb;
+                    i++;
                 }
-                n += 2;
+                numb += 2;
             }
-            System.out.println(n);
-            System.out.println(preGenCache.size());
+
+            System.out.println(preGenCache[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS - 1]);
         }
     }
 
@@ -74,10 +76,6 @@ public class LargestDivison {
      */
     public static String getYourName() {
         return "Bessenyei Balazs";
-    }
-
-    private static void put(long n) {
-        preGenCache.put(Long.toString(n), 1L);
     }
 
     private void storeInCache(String number, Long result) {
