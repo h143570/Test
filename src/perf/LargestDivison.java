@@ -1,7 +1,5 @@
 package perf;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,13 +65,6 @@ public class LargestDivison {
                 return tmpLong >> 1;
             }
 
-            //            BigInteger n = new BigInteger(number);
-            //            if (n.isProbablePrime(20)) {
-            //                result = PollardRho.rho(n).longValue();
-            //            } else {
-            //                result = 1L;
-            //            }
-
             long tmpResult = doWorkInternallyFast(tmpLong);
             if (tmpResult == 0L) {
                 tmpResult = doWorkInternallyRemainder(tmpLong, (long) Math.sqrt(tmpLong), maxElement);
@@ -120,48 +111,6 @@ public class LargestDivison {
             }
         }
         return result;
-    }
-
-    private static class PollardRho {
-        private final static BigInteger   ZERO   = new BigInteger("0");
-        private final static BigInteger   ONE    = new BigInteger("1");
-        private final static BigInteger   TWO    = new BigInteger("2");
-        private final static SecureRandom random = new SecureRandom();
-
-        public static BigInteger rho(BigInteger n) {
-            BigInteger divisor;
-            BigInteger c = new BigInteger(n.bitLength(), random);
-            BigInteger x = new BigInteger(n.bitLength(), random);
-            BigInteger xx = x;
-
-            // check divisibility by 2
-            if (n.mod(TWO).compareTo(ZERO) == 0) {
-                return TWO;
-            }
-
-            do {
-                x = x.multiply(x).mod(n).add(c).mod(n);
-                xx = xx.multiply(xx).mod(n).add(c).mod(n);
-                xx = xx.multiply(xx).mod(n).add(c).mod(n);
-                divisor = x.subtract(xx).gcd(n);
-            } while ((divisor.compareTo(ONE)) == 0);
-
-            return divisor;
-        }
-
-        public static void factor(BigInteger n) {
-            if (n.compareTo(ONE) == 0) {
-                return;
-            }
-            if (n.isProbablePrime(20)) {
-                System.out.println(n);
-                return;
-            }
-            BigInteger divisor = rho(n);
-            factor(divisor);
-            factor(n.divide(divisor));
-        }
-
     }
 
 }
