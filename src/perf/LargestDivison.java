@@ -1,5 +1,7 @@
 package perf;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,16 +40,6 @@ public class LargestDivison {
             maxElement = preGenCache[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS - 1];
             System.out.println(preGenCache[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS - 1]);
 
-            //            numb = 0;
-            //            i = 1;
-            //            while (i < MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS * 10) {
-            //                if (doWorkInternallyRemainder(numb, (long) Math.sqrt(numb), 3) == 1) {
-            //                    i++;
-            //                }
-            //                numb += 2;
-            //            }
-            //            System.out.println(i);
-            //            System.out.println(numb);
         }
     }
 
@@ -59,6 +51,7 @@ public class LargestDivison {
      * @param number to get the real largest divisions.
      * @return the real largest divisions, 1 if number is a prime. -1 in case of error.
      */
+
     public long getLargestDivison(String number) {
         Long result = cache.get(number);
         if (result == null) {
@@ -73,8 +66,16 @@ public class LargestDivison {
             if ((tmpLong & 1) == 0) {
                 return tmpLong >> 1;
             }
+
+            //            BigInteger n = new BigInteger(number);
+            //            if (n.isProbablePrime(20)) {
+            //                result = PollardRho.rho(n).longValue();
+            //            } else {
+            //                result = 1L;
+            //            }
+
             long tmpResult = doWorkInternallyFast(tmpLong);
-            if (tmpResult == 1L && tmpResult <= maxElement) {
+            if (tmpResult == 0L) {
                 tmpResult = doWorkInternallyRemainder(tmpLong, (long) Math.sqrt(tmpLong), maxElement);
             }
             result = tmpResult;
@@ -102,7 +103,7 @@ public class LargestDivison {
     }
 
     private static final long doWorkInternallyFast(final long n) {
-        long result = 1;
+        long result = 0;
         for (long j : preGenCache) {
             if (n % j == 0) {
                 return n / j;
@@ -121,29 +122,46 @@ public class LargestDivison {
         return result;
     }
 
-    private static final long doWorkInternallyRemainder2(long n, long sqrt, long start) {
-        long result = 1;
-        for (long i = start; i <= sqrt; i += 4) {
-            if (n % i == 0 || n % (i + 2) == 0) {
-                if (n % i == 0) {
-                    result = n / i;
-                } else {
-                    result = n / (i + 2);
-                }
-                break;
+    private static class PollardRho {
+        private final static BigInteger   ZERO   = new BigInteger("0");
+        private final static BigInteger   ONE    = new BigInteger("1");
+        private final static BigInteger   TWO    = new BigInteger("2");
+        private final static SecureRandom random = new SecureRandom();
+
+        public static BigInteger rho(BigInteger n) {
+            BigInteger divisor;
+            BigInteger c = new BigInteger(n.bitLength(), random);
+            BigInteger x = new BigInteger(n.bitLength(), random);
+            BigInteger xx = x;
+
+            // check divisibility by 2
+            if (n.mod(TWO).compareTo(ZERO) == 0) {
+                return TWO;
             }
+
+            do {
+                x = x.multiply(x).mod(n).add(c).mod(n);
+                xx = xx.multiply(xx).mod(n).add(c).mod(n);
+                xx = xx.multiply(xx).mod(n).add(c).mod(n);
+                divisor = x.subtract(xx).gcd(n);
+            } while ((divisor.compareTo(ONE)) == 0);
+
+            return divisor;
         }
-        return result;
+
+        public static void factor(BigInteger n) {
+            if (n.compareTo(ONE) == 0) {
+                return;
+            }
+            if (n.isProbablePrime(20)) {
+                System.out.println(n);
+                return;
+            }
+            BigInteger divisor = rho(n);
+            factor(divisor);
+            factor(n.divide(divisor));
+        }
+
     }
 
-    private static final long doWorkInternallyRemainder3(long n, long sqrt, long start) {
-        long result = 1;
-        for (long i = start; i <= sqrt; i += 2) {
-            if ((n - (i * (n / i))) == 0) {
-                result = n / i;
-                break;
-            }
-        }
-        return result;
-    }
 }
