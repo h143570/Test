@@ -1,6 +1,8 @@
 package perf;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -14,13 +16,15 @@ public class LargestDivison {
     private static long[]                      preGenCache;
     private static ConcurrentMap<String, Long> cache                                = new ConcurrentHashMap<String, Long>(CACHE_SIZE + 100, 1, 10);
     private static long                        maxElement;
-    private static long                        startK;
-    private static long                        maxElementK;
-    private static long                        maxElementKMinusOne;
-
     private static long                        maxElement30;
+    private static long                        maxElement210;
 
     private static final Long                  MINUS_ONE                            = -1L;
+
+    //1 is removed
+    private static final long[]                probablePrimeSuffixes                = new long[]{11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59,
+        61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 121, 127, 131, 137, 139, 143, 149, 151, 157, 163, 167, 169, 173, 179, 181, 187, 191,
+        193, 197, 199, 209                                                          };
 
     public LargestDivison() {
         super();
@@ -29,20 +33,20 @@ public class LargestDivison {
 
             preGenCache = new long[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS];
 
-            preGenCache[0] = 7;
+            preGenCache[0] = 11;
             int i = 1;
-            long numb = 11;
+            long numb = 13;
 
             while (i < MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS) {
                 if ((numb % 3) != 0) {
                     if ((numb % 5) != 0) {
-                        //                if (doWorkInternallyRemainder(numb, (long) Math.sqrt(numb), 3) == 1) {
-                        if (doWorkInternallyRemainder3(numb, (long) Math.sqrt(numb), 0) == 1) {
-                            //                if (isPrime(numb)) {
-                            preGenCache[i] = numb;
-                            i++;
-                            if (i % 10000 == 0) {
-                                System.out.println(i);
+                        if ((numb % 7) != 0) {
+                            if (doWorkInternallyRemainder4(numb, (long) Math.sqrt(numb), 0) == 1) {
+                                preGenCache[i] = numb;
+                                i++;
+                                if (i % 10000 == 0) {
+                                    System.out.println(i);
+                                }
                             }
                         }
                     }
@@ -52,16 +56,30 @@ public class LargestDivison {
             maxElement = preGenCache[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS - 1];
             System.out.println(maxElement);
 
-            if ((maxElement - 1) % 6 == 0) {
-                startK = (maxElement - 1) / 6;
-            } else if ((maxElement + 1) % 6 == 0) {
-                startK = (maxElement + 1) / 6;
-            }
-            maxElementK = startK * 6;
-            maxElementKMinusOne = maxElementK - 1;
-
             maxElement30 = (maxElement / 30) * 30;
-            System.out.println(startK);
+            maxElement210 = (maxElement / 210) * 210;
+
+            List<Long> nonDivisable = new ArrayList<Long>();
+            for (long l = 0; l < 2310; l++) {
+                if (l % 2 == 0) {
+                    continue;
+                }
+                if (l % 3 == 0) {
+                    continue;
+                }
+                if (l % 5 == 0) {
+                    continue;
+                }
+                if (l % 7 == 0) {
+                    continue;
+                }
+                if (l % 11 == 0) {
+                    continue;
+                }
+                nonDivisable.add(l);
+            }
+            System.out.println(nonDivisable);
+            System.out.println(nonDivisable.size());
 
         }
     }
@@ -94,6 +112,9 @@ public class LargestDivison {
             }
             if ((tmpLong % 5) == 0) {
                 return tmpLong / 5;
+            }
+            if ((tmpLong % 7) == 0) {
+                return tmpLong / 7;
             }
 
             long tmpResult = doWorkInternallyFast(tmpLong);
@@ -134,27 +155,6 @@ public class LargestDivison {
         return 0;
     }
 
-    private static final long doWorkInternallyRemainder(final long n, final long sqrt, final long start) {
-        for (long i = start; i <= sqrt; i += 2) {
-            if (n % i == 0) {
-                return n / i;
-            }
-        }
-        return 1;
-    }
-
-    private static final long doWorkInternallyRemainder2(final long n, final long sqrt, final long start) {
-        for (long i = start; i <= sqrt; i += 6) {
-            if (n % i == 0) {
-                return n / i;
-            }
-            if (n % (i + 2) == 0) {
-                return n / (i + 2);
-            }
-        }
-        return 1;
-    }
-
     private static final long doWorkInternallyRemainder3(final long n, final long sqrt, final long start) {
         for (long i = start; i <= sqrt; i += 30) {
 
@@ -187,27 +187,19 @@ public class LargestDivison {
         return 1;
     }
 
-    //    private static final boolean isPrime(final long number) {
-    //        if ((number & 1) == 0) {
-    //            return false;
-    //        }
-    //        if ((number % 3) == 0) {
-    //            return false;
-    //        }
-    //
-    //        if ((number % 5) == 0) {
-    //            return false;
-    //        }
-    //
-    //        int mod = (int) (number % 30);
-    //        for (int j : modulus) {
-    //            if (mod == j) {
-    //                return true;
-    //            }
-    //        }
-    //
-    //        return false;
-    //
-    //    }
+    private static final long doWorkInternallyRemainder4(final long n, final long sqrt, final long start) {
+        for (long i = start; i <= sqrt; i += 210) {
+            if ((i > 0) && (n % (i + 1) == 0)) {
+                return n / (i + 1);
+            }
+            for (long l : probablePrimeSuffixes) {
+
+                if ((n % (i + l) == 0)) {
+                    return n / (i + l);
+                }
+            }
+        }
+        return 1;
+    }
 
 }
