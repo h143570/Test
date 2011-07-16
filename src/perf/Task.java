@@ -9,7 +9,7 @@ public class Task implements Runnable {
     private List<String>   testData;
     private List<Long>     result;
 
-    public Task(List<String> testData) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public Task(List<String> testData) {
         theTask = new LargestDivison();
         this.testData = testData;
         result = new ArrayList<Long>(testData.size());
