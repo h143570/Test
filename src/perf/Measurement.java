@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class Measurement {
 
     private final static String             FILENAME        = "testdata.csv";
-    private final static int                THREAD_COUNT    = 1;
+    private final static int                THREAD_COUNT    = 100;
     private final static List<Task>         TASKS           = new ArrayList<Task>(THREAD_COUNT);
     private final static ExecutorService    THREAD_EXECUTOR = Executors.newFixedThreadPool(THREAD_COUNT);
     private final static List<List<String>> TEST_DATA       = new ArrayList<List<String>>(THREAD_COUNT);
