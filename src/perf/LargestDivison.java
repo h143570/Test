@@ -153,6 +153,24 @@ public class LargestDivison {
 
     private static final long doWorkInternallyRemainder4(final long n, final long sqrt) {
         for (long i = maxElements; i <= sqrt; i += maxCombinations) {
+
+            //            long mod = i == 0 ? n % maxCombinations : (n % i) % maxCombinations;
+
+            //            if (mod == 1 && i > 0) {
+            //                return n / (i + 1);
+            //            }
+            //
+            //            for (long l : primeSuffixes) {
+            //                //                if (l == 1 && i == 0) {
+            //                //                    continue;
+            //                //                }
+            //                if (mod == l && n % l == 00) {
+            //                    if (l == 0 && i > 0) {
+            //                        return n / (i + l);
+            //                    }
+            //                }
+            //            }
+
             if ((i > 0) && (n % (i + 1) == 0)) {
                 return n / (i + 1);
             }
@@ -165,5 +183,4 @@ public class LargestDivison {
         }
         return 1;
     }
-
 }
