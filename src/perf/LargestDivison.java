@@ -9,18 +9,16 @@ import java.util.concurrent.ConcurrentMap;
 
 public class LargestDivison {
 
-    private static final int                   CACHE_SIZE                           = 500;
+    private static final int                   CACHE_SIZE                           = 99950;
     private static final int                   MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS = 94235;
 
-    //    private static Map<String, Long> preGenCache;
     private static long[]                      preGenCache;
-    private static ConcurrentMap<String, Long> cache                                = new ConcurrentHashMap<String, Long>(CACHE_SIZE + 10, 1, 100);
+    private static ConcurrentMap<String, Long> cache                                = new ConcurrentHashMap<String, Long>(CACHE_SIZE + 50, 1, 100);
     private static long                        maxElement;
     private static long                        maxElements                          = 0;
 
     private static final Long                  MINUS_ONE                            = -1L;
 
-    //1 is removed
     private static long[]                      primeSuffixes;
 
     private static final long[]                primes                               = new long[]{2, 3, 5, 7, 11, 13};
@@ -153,23 +151,6 @@ public class LargestDivison {
 
     private static final long doWorkInternallyRemainder4(final long n, final long sqrt) {
         for (long i = maxElements; i <= sqrt; i += maxCombinations) {
-
-            //            long mod = i == 0 ? n % maxCombinations : (n % i) % maxCombinations;
-
-            //            if (mod == 1 && i > 0) {
-            //                return n / (i + 1);
-            //            }
-            //
-            //            for (long l : primeSuffixes) {
-            //                //                if (l == 1 && i == 0) {
-            //                //                    continue;
-            //                //                }
-            //                if (mod == l && n % l == 00) {
-            //                    if (l == 0 && i > 0) {
-            //                        return n / (i + l);
-            //                    }
-            //                }
-            //            }
 
             if ((i > 0) && (n % (i + 1) == 0)) {
                 return n / (i + 1);
