@@ -14,16 +14,13 @@ public class LargestDivison {
 
     private static long[]                      preGenCache;
     private static ConcurrentMap<String, Long> cache                                = new ConcurrentHashMap<String, Long>(CACHE_SIZE + 50, 1, 100);
-    private static long                        maxElement;
     private static long                        maxElements                          = 0;
+    private static long                        maxCombinations                      = 1;
 
     private static final Long                  MINUS_ONE                            = -1L;
 
     private static long[]                      primeSuffixes;
-
     private static final long[]                primes                               = new long[]{2, 3, 5, 7, 11, 13};
-
-    private static long                        maxCombinations                      = 1;
 
     public LargestDivison() {
         super();
@@ -76,7 +73,7 @@ public class LargestDivison {
                 }
                 numb += 2;
             }
-            maxElement = preGenCache[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS - 1];
+            long maxElement = preGenCache[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS - 1];
             System.out.println(maxElement);
 
             maxElements = (maxElement / maxCombinations) * maxCombinations;
