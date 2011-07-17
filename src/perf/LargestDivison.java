@@ -149,13 +149,14 @@ public class LargestDivison {
     private static final long doWorkInternallyRemainder4(final long n, final long sqrt) {
         for (long i = maxElements; i <= sqrt; i += maxCombinations) {
 
-            if ((i > 0) && (n % (i + 1) == 0)) {
-                return n / (i + 1);
+            long m = i + 1;
+            if ((i > 0) && (n % m == 0)) {
+                return n / m;
             }
             for (long l : primeSuffixes) {
-
-                if ((n % (i + l) == 0)) {
-                    return n / (i + l);
+                m = i + l;
+                if ((n % m == 0)) {
+                    return n / m;
                 }
             }
         }
