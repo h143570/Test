@@ -19,8 +19,19 @@ public class LargestDivison {
 
     private static final Long                  MINUS_ONE                            = -1L;
 
-    private static long[]                      primeSuffixes;
     private static final long[]                primes                               = new long[]{2, 3, 5, 7, 11, 13};
+    //    private static long                        firstQuarter                         = 0;
+    //    private static long                        secondQuarter                        = 0;
+    //    private static long                        thirdQuarter                         = 0;
+    private static long[]                      primeSuffixes;
+
+    private static long[][]                    primeSuffixes2;
+    private static long[]                      primeSuffix2UpperBounds;
+
+    //    private static long[]                      primeSuffixesFirst;
+    //    private static long[]                      primeSuffixesSecond;
+    //    private static long[]                      primeSuffixesThird;
+    //    private static long[]                      primeSuffixesFourt;
 
     public LargestDivison() {
         super();
@@ -47,6 +58,69 @@ public class LargestDivison {
             primeSuffixes = new long[nonDivisable.size() - 1];
             for (int i = 1; i < nonDivisable.size(); i++) {
                 primeSuffixes[i - 1] = nonDivisable.get(i);
+            }
+
+            int size = nonDivisable.size() - 1;
+            int quater = 4;
+            int sizeQuarter = size / quater;
+            int sizeQuarterMod = size % quater;
+            int index = 0;
+            primeSuffix2UpperBounds = new long[quater - 1];
+            primeSuffixes2 = new long[quater][];
+            for (int i = 0; i < quater; i++) {
+                int sizeInternal = i == 0 ? sizeQuarter : i < sizeQuarterMod ? sizeQuarter : sizeQuarter - 1;
+                for (int j = 0; j < sizeInternal; j++) {
+                    index++;
+                    long[] primeSuffix = primeSuffixes2[i];
+                    if (primeSuffix == null) {
+                        primeSuffix = new long[sizeInternal];
+                        primeSuffixes2[i] = primeSuffix;
+                    }
+                    //                    if (j < primeSuffix.length) {
+                    primeSuffix[j] = nonDivisable.get(index);
+                    if (i < quater - 1) {
+                        primeSuffix2UpperBounds[i] = primeSuffix[j];
+                    }
+                    //                    }
+
+                    //                    switch (i) {
+                    //                    case 0:
+                    //                        if (primeSuffixesFirst == null) {
+                    //                            primeSuffixesFirst = new long[sizeQuarter];
+                    //                        }
+                    //                        primeSuffixesFirst[j] = nonDivisable.get(index);
+                    //                        firstQuarter = primeSuffixesFirst[j];
+                    //                    case 1:
+                    //                        int sizeInternal = sizeQuarterMod < 3 ? sizeQuarter : sizeQuarter - 1;
+                    //                        if (primeSuffixesSecond == null) {
+                    //                            primeSuffixesSecond = new long[sizeInternal];
+                    //                        }
+                    //                        if (j >= sizeInternal) {
+                    //                            break;
+                    //                        }
+                    //                        primeSuffixesSecond[j] = nonDivisable.get(index);
+                    //                        secondQuarter = primeSuffixesSecond[j];
+                    //                    case 2:
+                    //                        sizeInternal = sizeQuarterMod < 2 ? sizeQuarter : sizeQuarter - 1;
+                    //                        if (primeSuffixesThird == null) {
+                    //                            primeSuffixesThird = new long[sizeInternal];
+                    //                        }
+                    //                        if (j >= sizeInternal) {
+                    //                            break;
+                    //                        }
+                    //                        primeSuffixesThird[j] = nonDivisable.get(index);
+                    //                        thirdQuarter = primeSuffixesThird[j];
+                    //                    case 3:
+                    //                        sizeInternal = sizeQuarterMod < 1 ? sizeQuarter : sizeQuarter - 1;
+                    //                        if (primeSuffixesFourt == null) {
+                    //                            primeSuffixesFourt = new long[sizeInternal];
+                    //                        }
+                    //                        if (j >= sizeInternal) {
+                    //                            break;
+                    //                        }
+                    //                        primeSuffixesFourt[j] = nonDivisable.get(index);
+                    //                    }
+                }
             }
 
             preGenCache = new long[MAX_NUMBER_OF_PRE_GEN_CACHE_ELEMENTS];
@@ -146,14 +220,47 @@ public class LargestDivison {
         return 0;
     }
 
+    //    private static final long doWorkInternallyRemainder4(final long n, final long sqrt) {
+    //        for (long i = maxElements; i <= sqrt; i += maxCombinations) {
+    //
+    //            long m = i + 1;
+    //            if ((i > 0) && (n % m == 0)) {
+    //                return n / m;
+    //            }
+    //            for (long l : primeSuffixes) {
+    //                m = i + l;
+    //                if ((n % m == 0)) {
+    //                    return n / m;
+    //                }
+    //            }
+    //        }
+    //        return 1;
+    //    }
+
     private static final long doWorkInternallyRemainder4(final long n, final long sqrt) {
+
         for (long i = maxElements; i <= sqrt; i += maxCombinations) {
+
+            long bound = i % maxCombinations;
+            long[] primeSuffix = primeSuffixes;
+            for (int index = 0; index < primeSuffix2UpperBounds.length; index++) {
+
+                if (index == 0) {
+                    primeSuffix = primeSuffixes2[index];
+                } else if (bound > primeSuffix2UpperBounds[index - 1] && bound <= primeSuffix2UpperBounds[index]) {
+                    primeSuffix = primeSuffixes2[index];
+                    break;
+                } else if (primeSuffix2UpperBounds[index] > bound) {
+                    primeSuffix = primeSuffixes2[primeSuffix2UpperBounds.length];
+                }
+
+            }
 
             long m = i + 1;
             if ((i > 0) && (n % m == 0)) {
                 return n / m;
             }
-            for (long l : primeSuffixes) {
+            for (long l : primeSuffix) {
                 m = i + l;
                 if ((n % m == 0)) {
                     return n / m;
