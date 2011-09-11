@@ -1,4 +1,4 @@
-package eclipseprojektcreator.domain.module;
+package ideProjektCreator.domain.module;
 
 /**
  * Describes a module in the application.

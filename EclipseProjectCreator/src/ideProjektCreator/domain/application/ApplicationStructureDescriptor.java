@@ -1,10 +1,10 @@
-package eclipseprojektcreator.domain.application;
+package ideProjektCreator.domain.application;
+
+import ideProjektCreator.domain.BuildSystemType;
+import ideProjektCreator.domain.module.ModuleDescriptor;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import eclipseprojektcreator.domain.BuildSystemType;
-import eclipseprojektcreator.domain.module.ModuleDescriptor;
 
 /**
  * Describes an Application structure.
@@ -16,11 +16,11 @@ import eclipseprojektcreator.domain.module.ModuleDescriptor;
  * @author Cobalt
  *
  */
-public class ApplicationStructureDescriptor<T extends ModuleDescriptor> {
+public class ApplicationStructureDescriptor<M extends ModuleDescriptor> {
 
     protected BuildSystemType buildSystemType;
     protected String          fullPath;
-    protected Map<String, T>  modules = new LinkedHashMap<String, T>();
+    protected Map<String, M>  modules = new LinkedHashMap<String, M>();
     protected String          libPath;
     protected String          testLibPath;
 
@@ -28,7 +28,7 @@ public class ApplicationStructureDescriptor<T extends ModuleDescriptor> {
         this.fullPath = fullPath;
     }
 
-    public void addModule(T module) {
+    public void addModule(M module) {
         modules.put(module.getName(), module);
     }
 
@@ -40,7 +40,7 @@ public class ApplicationStructureDescriptor<T extends ModuleDescriptor> {
         return fullPath;
     }
 
-    public Map<String, T> getModules() {
+    public Map<String, M> getModules() {
         return modules;
     }
 

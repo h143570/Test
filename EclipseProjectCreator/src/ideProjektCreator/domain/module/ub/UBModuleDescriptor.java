@@ -1,6 +1,6 @@
-package eclipseprojektcreator.domain.module.ub;
+package ideProjektCreator.domain.module.ub;
 
-import eclipseprojektcreator.domain.module.ModuleDescriptor;
+import ideProjektCreator.domain.module.ModuleDescriptor;
 
 /**
  * UB Specific additional module information.
@@ -15,6 +15,7 @@ public class UBModuleDescriptor extends ModuleDescriptor {
     protected boolean ivyConfigPresent;
     protected boolean mainModule;
     protected boolean webModule;
+    protected boolean checkStylePresent;
 
     public String getDynamicWebContentRelativePath() {
         return dynamicWebContentRelativePath;
@@ -54,6 +55,14 @@ public class UBModuleDescriptor extends ModuleDescriptor {
 
     public void setWebModule(boolean webModule) {
         this.webModule = webModule;
+    }
+
+    public boolean isCheckStylePresent() {
+        return checkStylePresent;
+    }
+
+    public void setCheckStylePresent(boolean checkStylePresent) {
+        this.checkStylePresent = checkStylePresent;
     }
 
 }

@@ -1,4 +1,4 @@
-package eclipseprojektcreator.domain;
+package ideProjektCreator.domain;
 
 /**
  * Stores the type of supported Build Systems.
