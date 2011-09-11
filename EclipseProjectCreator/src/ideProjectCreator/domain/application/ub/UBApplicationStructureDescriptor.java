@@ -22,4 +22,10 @@ public class UBApplicationStructureDescriptor<M extends UBModuleDescriptor> exte
         this.mainModule = mainModule;
     }
 
+    @Override
+    public String toString() {
+        return "UBApplicationStructureDescriptor [mainModule=" + mainModule + ", buildSystemType=" + buildSystemType + ", fullPath=" + fullPath
+                + ", modules=" + modules + ", libPath=" + libPath + ", testLibPath=" + testLibPath + "]";
+    }
+
 }

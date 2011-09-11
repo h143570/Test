@@ -56,4 +56,10 @@ public class ModuleDescriptor {
         this.testPresent = testPresent;
     }
 
+    @Override
+    public String toString() {
+        return "ModuleDescriptor [name=" + name + ", relativePath=" + relativePath + ", srcPresent=" + srcPresent + ", resourcesPresent="
+                + resourcesPresent + ", testPresent=" + testPresent + "]";
+    }
+
 }

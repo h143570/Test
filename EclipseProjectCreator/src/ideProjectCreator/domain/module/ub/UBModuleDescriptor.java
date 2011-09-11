@@ -10,28 +10,11 @@ import ideProjectCreator.domain.module.ModuleDescriptor;
  */
 public class UBModuleDescriptor extends ModuleDescriptor {
 
-    protected String  dynamicWebContentRelativePath;
-    protected String  staticWebcContentRelativePath;
     protected boolean ivyConfigPresent;
     protected boolean mainModule;
     protected boolean webModule;
+    protected boolean staticWebModule;
     protected boolean checkStylePresent;
-
-    public String getDynamicWebContentRelativePath() {
-        return dynamicWebContentRelativePath;
-    }
-
-    public void setDynamicWebContentRelativePath(String dynamicWebContentRelativePath) {
-        this.dynamicWebContentRelativePath = dynamicWebContentRelativePath;
-    }
-
-    public String getStaticWebcContentRelativePath() {
-        return staticWebcContentRelativePath;
-    }
-
-    public void setStaticWebcContentRelativePath(String staticWebcContentRelativePath) {
-        this.staticWebcContentRelativePath = staticWebcContentRelativePath;
-    }
 
     public boolean isIvyConfigPresent() {
         return ivyConfigPresent;
@@ -57,12 +40,27 @@ public class UBModuleDescriptor extends ModuleDescriptor {
         this.webModule = webModule;
     }
 
+    public boolean isStaticWebModule() {
+        return staticWebModule;
+    }
+
+    public void setStaticWebModule(boolean staticWebModule) {
+        this.staticWebModule = staticWebModule;
+    }
+
     public boolean isCheckStylePresent() {
         return checkStylePresent;
     }
 
     public void setCheckStylePresent(boolean checkStylePresent) {
         this.checkStylePresent = checkStylePresent;
+    }
+
+    @Override
+    public String toString() {
+        return "UBModuleDescriptor [ivyConfigPresent=" + ivyConfigPresent + ", mainModule=" + mainModule + ", webModule=" + webModule
+                + ", staticWebModule=" + staticWebModule + ", checkStylePresent=" + checkStylePresent + ", name=" + name + ", relativePath="
+                + relativePath + ", srcPresent=" + srcPresent + ", resourcesPresent=" + resourcesPresent + ", testPresent=" + testPresent + "]";
     }
 
 }

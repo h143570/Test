@@ -20,9 +20,9 @@ public class ApplicationStructureDescriptor<M extends ModuleDescriptor> {
 
     protected BuildSystemType buildSystemType;
     protected String          fullPath;
-    protected Map<String, M>  modules = new LinkedHashMap<String, M>();
-    protected String          libPath;
-    protected String          testLibPath;
+    protected Map<String, M>  modules     = new LinkedHashMap<String, M>();
+    protected String          libPath     = "lib";
+    protected String          testLibPath = "test/lib";
 
     public ApplicationStructureDescriptor(String fullPath) {
         this.fullPath = fullPath;
@@ -58,6 +58,12 @@ public class ApplicationStructureDescriptor<M extends ModuleDescriptor> {
 
     public void setTestLibPath(String testLibPath) {
         this.testLibPath = testLibPath;
+    }
+
+    @Override
+    public String toString() {
+        return "ApplicationStructureDescriptor [buildSystemType=" + buildSystemType + ", fullPath=" + fullPath + ", modules=" + modules
+                + ", libPath=" + libPath + ", testLibPath=" + testLibPath + "]";
     }
 
 }

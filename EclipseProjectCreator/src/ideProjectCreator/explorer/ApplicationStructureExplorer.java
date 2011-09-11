@@ -22,6 +22,6 @@ public interface ApplicationStructureExplorer<A extends ApplicationStructureDesc
      * @return an applicable {@link ApplicationStructureDescriptor}
      *
      */
-    A parseApplicationStrucutre(String fullPath);
+    ApplicationStructureDescriptor<ModuleDescriptor> parseApplicationStrucutre(String fullPath);
 
 }
